@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation with LocalStorage</title>
+    <style>
+        /* Button and image styles */
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button.animate {
+            animation: bounce 1s infinite;
+        }
+
+        /* CSS animation: bounce */
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Animation Toggle Example</h1>
+
+    <button id="toggleButton">Toggle Animation</button>
+    <button id="actionButton">Click Me for Animation</button>
+    
+    <script>
+        // Function to check if animation is enabled in localStorage
+        function getAnimationPreference() {
+            const preference = localStorage.getItem('animationsEnabled');
+            return preference === 'true'; // Returns true if animations are enabled
+        }
+
+        // Function to set animation preference in localStorage
+        function setAnimationPreference(isEnabled) {
+            localStorage.setItem('animationsEnabled', isEnabled);
+        }
+
+        // Function to toggle the animation on the action button
+        function toggleAnimation() {
+            const actionButton = document.getElementById('actionButton');
+            
+            if (getAnimationPreference()) {
+                // If animations are enabled, add the animation class to the button
+                actionButton.classList.add('animate');
+            } else {
+                // If animations are disabled, remove the animation class from the button
+                actionButton.classList.remove('animate');
+            }
+        }
+
+        // Set up event listener for toggling animation preference
+        const toggleButton = document.getElementById('toggleButton');
+        toggleButton.addEventListener('click', () => {
+            const currentPreference = getAnimationPreference();
+            const newPreference = !currentPreference;
+
+            // Toggle the animation preference and save it to localStorage
+            setAnimationPreference(newPreference);
+
+            // Update the animation behavior based on the new preference
+            toggleAnimation();
+
+            // Log current preference
+            console.log(`Animations are now ${newPreference ? 'enabled' : 'disabled'}.`);
+        });
+
+        // Initialize the page with the current animation preference
+        toggleAnimation();
+    </script>
+</body>
+</html>
+
+
+
+
